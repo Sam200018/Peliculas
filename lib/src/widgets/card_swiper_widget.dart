@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:peliculas/src/models/pelicula_model.dart';
 
 class CardSwiper extends StatelessWidget {
-  final List<dynamic> peliculas;
+  final List<Pelicula>
+      peliculas; //se cambio porque estaba en dynamic y lo queremos en pelicula
   CardSwiper({@required this.peliculas});
 
   @override
@@ -20,13 +22,13 @@ class CardSwiper extends StatelessWidget {
             .STACK, //1. para que esta propiedad funcione tenemos que hacer ponerle por lo menos el ancho de las tarjetas
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
-            //espara crear un clip de tarjetas de determinada imagen o cosa
-            borderRadius: BorderRadius.circular(20.0),
-            child: Image.network(
-              "http://via.placeholder.com/350x150",
-              fit: BoxFit.cover,
-            ),
-          );
+              //espara crear un clip de tarjetas de determinada imagen o cosa
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
+                placeholder: AssetImage('assets/img/loading.gif'),
+                image: NetworkImage(peliculas[index].getPosterImg()),
+                fit: BoxFit.cover,
+              ));
         },
         itemCount: peliculas.length,
         // pagination:
