@@ -16,11 +16,14 @@ class PeliculasProvider {
     });
 
     final resp = await http.get(url);
+    // print(resp.body); toda la data que recibimos de la petición
 
     final decodeData = json.decode(resp.body);
+    // print(decodeData['results']);//nuestra colección
+    final peliculas = new Peliculas.fromJsonList(
+        decodeData['results']); //la coleccion es analizada por nuestra clase
 
-    final peliculas = new Peliculas.fromJsonList(decodeData['results']);
-
-    return peliculas.items;
+    return peliculas
+        .coleccion; //regresamos la coleccion Peliculas de elementos Pelicula
   }
 }
