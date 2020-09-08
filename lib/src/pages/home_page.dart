@@ -38,6 +38,7 @@ class HomePage extends StatelessWidget {
       // initialData: InitialData,
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
+          //Aquí el snapshot contiene la colección peliculas de elemento Pelicula
           return CardSwiper(peliculas: snapshot.data);
         } else {
           return Container(
