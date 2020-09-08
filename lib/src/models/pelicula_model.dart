@@ -65,10 +65,11 @@ class Pelicula {
   }
 
   getPosterImg() {
+    //Creamos este método para poder retornar la imagen de cada elemento
     if (posterPath == null) {
-      return 'https://admin.promosupplyer.mx/images/imagen-no-disponible.jpg';
+      return 'https://admin.promosupplyer.mx/images/imagen-no-disponible.jpg'; //colocamos una por si no hay null en la consulta
     } else {
-      return 'https://image.tmdb.org/t/p/w500/$posterPath';
+      return 'https://image.tmdb.org/t/p/w500/$posterPath'; // y si no es null regresamos el path del poster para poder ver esa imagen en las card
     }
   }
 }
