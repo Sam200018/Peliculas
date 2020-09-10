@@ -14,10 +14,13 @@ class CardSwiper extends StatelessWidget {
         .size; //para hacer la mediaQuery usamos el context es por ello que debe de estar dentro de nuestro método build
 
     return Container(
-      margin: EdgeInsets.only(top: 20.0),
+      margin: EdgeInsets.only(
+        top: 2.0,
+        bottom: 0.0,
+      ),
       child: Swiper(
         itemWidth: _screenSize.width * 0.7,
-        itemHeight: _screenSize.height * 0.5,
+        itemHeight: _screenSize.height * 0.55,
         layout: SwiperLayout
             .STACK, //1. para que esta propiedad funcione tenemos que hacer ponerle por lo menos el ancho de las tarjetas
         itemBuilder: (BuildContext context, int index) {
@@ -25,7 +28,7 @@ class CardSwiper extends StatelessWidget {
               //espara crear un clip de tarjetas de determinada imagen o cosa
               borderRadius: BorderRadius.circular(20.0),
               child: FadeInImage(
-                placeholder: AssetImage('assets/img/loading.gif'),
+                placeholder: AssetImage('assets/img/no-image.jpg'),
                 image: NetworkImage(peliculas[index].getPosterImg()),
                 fit: BoxFit.cover,
               ));
