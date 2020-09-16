@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:peliculas/src/models/pelicula_model.dart';
 
@@ -8,6 +9,25 @@ class PeliculasProvider {
   String _apikey = '4a428a2deefcff39097ea4a9d69f62c8';
   String _url = 'api.themoviedb.org';
   String _language = 'es-ES';
+
+  int _popularesPage = 0;
+
+  List<Pelicula> _populares = new List();
+
+  final _popularesStreamController = StreamController<
+      List<
+          Pelicula>>.broadcast(); //el .broadcast() es para que más de 1 widget puedan oir la información de este stream
+
+  Function(List<Pelicula>) get popularesSink => _popularesStreamController.sink
+      .add; //forma de enviar data en este stream, que van a enviar una lista de pelicula
+
+  Stream<List<Pelicula>> get popularesStream => _popularesStreamController
+      .stream; //forma de oir la data de este stream, que va recibir una lista de pelicula
+
+  void disposeStreams() {
+    //Este método es muy importante para que cuando no fluya información ene el stream se cierre o simplemente no se habrá el canal
+    _popularesStreamController?.close();
+  }
 
   Future<List<Pelicula>> _procesarRespuesta(Uri url) async {
     final resp = await http.get(url);
@@ -32,10 +52,18 @@ class PeliculasProvider {
   }
 
   Future<List<Pelicula>> getPopulares() async {
+    _popularesPage++;
     final url = Uri.https(_url, '3/movie/popular', {
       'api_key': _apikey,
       'language': _language,
+      'page': _popularesPage.toString(),
     });
-    return await _procesarRespuesta(url);
+    final resp = await _procesarRespuesta(url);
+    _populares.addAll(
+        resp); //esto de aquí puedo añadir toda la respuesta que haga por el pedido de la data
+
+    popularesSink(_populares);
+
+    return resp;
   }
 }
