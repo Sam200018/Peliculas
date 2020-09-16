@@ -15,7 +15,7 @@ class Horizontal extends StatelessWidget {
         pageSnapping: false,
         controller: PageController(
           initialPage: 1,
-          viewportFraction: 0.3,
+          viewportFraction: 0.25,
         ),
         children: _tarjetas(context),
       ),
