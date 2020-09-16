@@ -3,20 +3,34 @@ import 'package:peliculas/src/models/pelicula_model.dart';
 
 class Horizontal extends StatelessWidget {
   final List<Pelicula> peliculas;
+  final Function siguietePagina; //se agrego una propiedad que es un callback
 
-  Horizontal({@required this.peliculas});
+  Horizontal({@required this.peliculas, @required this.siguietePagina});
+  //la función es requerida para que esto pueda funcionar y se puedan ver una lista infinita de pelis chidas
+
+  final _pageController = new PageController(
+    //el controlador lo pasamos una sola variable
+    initialPage: 1,
+    viewportFraction: 0.25,
+  );
 
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
+
+    _pageController.addListener(() {
+      //cada que escuche que llegamos al final del inifite scroll y eso menos 200 pixeles se va a ejeutar la función que recibe esta class
+      if (_pageController.position.pixels >=
+          _pageController.position.maxScrollExtent - 200) {
+        siguietePagina(); // esta es la función que recibe nuestra class
+      }
+    });
+
     return Container(
       height: _screenSize.height * 0.2,
       child: PageView(
         pageSnapping: false,
-        controller: PageController(
-          initialPage: 1,
-          viewportFraction: 0.25,
-        ),
+        controller: _pageController,
         children: _tarjetas(context),
       ),
     );

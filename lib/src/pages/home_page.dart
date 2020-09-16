@@ -11,6 +11,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    peliculasProvider
+        .getPopulares(); //me va a regresar el listado del future y ejecuta el sink.add
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -69,11 +72,15 @@ class HomePage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 5.0),
-          FutureBuilder(
-            future: peliculasProvider.getPopulares(),
+          StreamBuilder(
+            stream: peliculasProvider
+                .popularesStream, //aquí no uso el future sino mi get popularesStream para decirle que se dibuje
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
               if (snapshot.hasData) {
-                return Horizontal(peliculas: snapshot.data);
+                return Horizontal(
+                  peliculas: snapshot.data,
+                  siguietePagina: peliculasProvider.getPopulares,
+                );
               } else {
                 return Center(child: CircularProgressIndicator());
               }
@@ -84,3 +91,6 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+//Builder:
+//El future solo se ejucuta una sola vez y el Stream se ejecuta cada que haya un cambio
