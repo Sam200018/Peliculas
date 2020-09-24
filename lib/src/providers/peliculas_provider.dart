@@ -11,6 +11,8 @@ class PeliculasProvider {
   String _language = 'es-ES';
 
   int _popularesPage = 0;
+  bool _cargando =
+      false; //Colocamos un tipo de bandera para poder saber cuando se estan cargando y no cargar todo siempre
 
   List<Pelicula> _populares = new List();
 
@@ -52,6 +54,10 @@ class PeliculasProvider {
   }
 
   Future<List<Pelicula>> getPopulares() async {
+    if (_cargando) return [];
+
+    _cargando =
+        true; //Aquí cambaimos el estado la bandera para poder cargar los datos
     _popularesPage++;
     final url = Uri.https(_url, '3/movie/popular', {
       'api_key': _apikey,
@@ -63,7 +69,8 @@ class PeliculasProvider {
         resp); //esto de aquí puedo añadir toda la respuesta que haga por el pedido de la data
 
     popularesSink(_populares);
-
+    _cargando =
+        false; //Esto de acá es para regresar la bandera a su esatado original
     return resp;
   }
 }
