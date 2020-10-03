@@ -45,9 +45,9 @@ class Actor {
 
   getPhotoImg() {
     if (profilePath == null) {
-      return 'https://www.pinpng.com/pngs/m/341-3415688_no-avatar-png-transparent-png.png';
+      return 'https://admin.promosupplyer.mx/images/imagen-no-disponible.jpg';
     } else {
-      return 'http://image.tmdb.org/t/´/w500/$profilePath';
+      return 'http://image.tmdb.org/t/p/w500/$profilePath';
     }
   }
 }
