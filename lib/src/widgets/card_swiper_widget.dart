@@ -24,14 +24,22 @@ class CardSwiper extends StatelessWidget {
         layout: SwiperLayout
             .STACK, //1. para que esta propiedad funcione tenemos que hacer ponerle por lo menos el ancho de las tarjetas
         itemBuilder: (BuildContext context, int index) {
-          return ClipRRect(
-              //espara crear un clip de tarjetas de determinada imagen o cosa
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-                placeholder: AssetImage('assets/img/no-image.jpg'),
-                image: NetworkImage(peliculas[index].getPosterImg()),
-                fit: BoxFit.cover,
-              ));
+          peliculas[index].uniqueId = '${peliculas[index].id}-tarjeta';
+          return Hero(
+            tag: peliculas[index].uniqueId,
+            child: ClipRRect(
+                //espara crear un clip de tarjetas de determinada imagen o cosa
+                borderRadius: BorderRadius.circular(20.0),
+                child: GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, 'detalle',
+                      arguments: peliculas[index]),
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/img/no-image.jpg'),
+                    image: NetworkImage(peliculas[index].getPosterImg()),
+                    fit: BoxFit.cover,
+                  ),
+                )),
+          );
         },
         itemCount: peliculas.length,
         // pagination:
