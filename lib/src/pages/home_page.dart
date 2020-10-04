@@ -4,6 +4,7 @@ import 'package:peliculas/src/providers/peliculas_provider.dart';
 
 import 'package:peliculas/src/widgets/card_swiper_widget.dart';
 import 'package:peliculas/src/widgets/movie_horizontal.dart';
+import 'package:peliculas/src/search/seach_delegate.dart';
 
 class HomePage extends StatelessWidget {
   final peliculasProvider =
@@ -22,7 +23,13 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: DataSeach(),
+                // query: 'Gool', esto es para poder sugerir una palabra de busqueda cuando se precione la lupa
+              );
+            },
           ),
         ],
       ),
